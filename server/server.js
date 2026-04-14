@@ -1,11 +1,13 @@
 const express = require("express");
 const cors = require("cors");
+const taskRoutes = require("./routes/taskRoutes");
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-const app = express(); // ✅ create app FIRST
+const app = express(); // ✅ MUST come before app.use
 
 const authRoutes = require("./routes/authRoutes");
+const testRoutes = require("./routes/testRoutes");
 
 // Middleware
 app.use(cors());
@@ -13,7 +15,8 @@ app.use(express.json());
 
 // Routes
 app.use("/api/auth", authRoutes);
-
+app.use("/api", testRoutes); // ✅ now correct
+app.use("/api", taskRoutes);
 // Test route
 app.get("/", (req, res) => {
   res.send("API is running...");
